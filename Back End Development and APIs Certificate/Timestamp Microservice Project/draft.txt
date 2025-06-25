@@ -1,0 +1,22 @@
+app.get("/api", (req, res) => {
+    const date = new Date();
+    res.json({ unix: date.getTime(), utc: date.toUTCString() });
+})
+
+app.get("/api/:date", (req, res) => {
+    const dateInfo = req.params['date'];
+    const timestamp = Number(dateInfo);
+
+    let date;
+    if (timestamp > 0) {
+        date = new Date(timestamp);
+    } else {
+        date = new Date(dateInfo);
+    }
+
+    if (isNaN(date)) {
+        res.json({ error: "Invalid Date" });
+    } else {
+        res.json({ unix: date.getTime(), utc: date.toUTCString() });
+    }
+})
